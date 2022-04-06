@@ -46,14 +46,15 @@ namespace CallingBotSample
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, CallingBot>();
 
             services.AddBot(options => this.Configuration.Bind("Bot", options));
 
             services.AddSingleton<ICard, CardHelper>();
             services.AddScoped<IGraph, GraphHelper>();
             services.ConfigureGraphComponent(options => this.Configuration.Bind("AzureAd", options));
+
+            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+            services.AddTransient<IBot, CallingBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

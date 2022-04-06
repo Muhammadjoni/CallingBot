@@ -62,7 +62,7 @@
             },
             "System.Net.Http.Formatting.Extension": {
               "target": "Package",
-              "version": "[5.2.3, )"
+              "version": "[3.1.0, )"
             }
           },
           "imports": [

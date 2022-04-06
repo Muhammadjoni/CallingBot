@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nIqP9IcmzcwVKPRA7cvDrGrTg2vPdases77YIW6X/Z4TsuVf6ocbQ6/+AWEspkk9Aksi6x6hCCjIqQou+GrjPQ==",
+  "dgSpecHash": "stYVcyNUmrXpIv/++3I2+zPdWX0SO5PQZjRZtUipOb4LsOjhVCgHOYskSa2t/2f3+TUsD2W4dDfWynFJk0JhOA==",
   "success": true,
   "projectFilePath": "/home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/CallingBotSample.csproj",
   "expectedPackageFiles": [
@@ -136,6 +136,16 @@
     "/home/jon/.nuget/packages/system.xml.xmlserializer/4.3.0/system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "CallingBotSample depends on System.Net.Http.Formatting.Extension (>= 3.1.0) but System.Net.Http.Formatting.Extension 3.1.0 was not found. An approximate best match of System.Net.Http.Formatting.Extension 5.2.3 was resolved.",
+      "libraryId": "System.Net.Http.Formatting.Extension",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

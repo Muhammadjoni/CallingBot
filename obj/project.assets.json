@@ -6842,7 +6842,7 @@
       "Microsoft.Graph.Auth >= 1.0.0-preview.7",
       "Microsoft.Graph.Communications.Calls >= 1.2.0.850",
       "Microsoft.Graph.Communications.Core >= 1.2.0.850",
-      "System.Net.Http.Formatting.Extension >= 5.2.3"
+      "System.Net.Http.Formatting.Extension >= 3.1.0"
     ]
   },
   "packageFolders": {
@@ -6906,7 +6906,7 @@
           },
           "System.Net.Http.Formatting.Extension": {
             "target": "Package",
-            "version": "[5.2.3, )"
+            "version": "[3.1.0, )"
           }
         },
         "imports": [
@@ -6932,6 +6932,16 @@
     }
   },
   "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "CallingBotSample depends on System.Net.Http.Formatting.Extension (>= 3.1.0) but System.Net.Http.Formatting.Extension 3.1.0 was not found. An approximate best match of System.Net.Http.Formatting.Extension 5.2.3 was resolved.",
+      "libraryId": "System.Net.Http.Formatting.Extension",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",
