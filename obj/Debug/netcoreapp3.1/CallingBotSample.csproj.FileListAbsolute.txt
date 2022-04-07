@@ -55,3 +55,5 @@
 /home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/obj/Debug/netcoreapp3.1/CallingBotSample.dll
 /home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/obj/Debug/netcoreapp3.1/CallingBotSample.pdb
 /home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/obj/Debug/netcoreapp3.1/CallingBotSample.genruntimeconfig.cache
+/home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/bin/Debug/netcoreapp3.1/manifest.json
+/home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/bin/Debug/netcoreapp3.1/Manifest/manifest.json

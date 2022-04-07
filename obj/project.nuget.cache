@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "stYVcyNUmrXpIv/++3I2+zPdWX0SO5PQZjRZtUipOb4LsOjhVCgHOYskSa2t/2f3+TUsD2W4dDfWynFJk0JhOA==",
+  "dgSpecHash": "raMKkhNiF5Y5SDVogIZU/3PBTtKpSEl5LeE1ZRT/utElqu+RwXW+VUfKtDgRGdosR3m4m875/ZdUmRUhPwAEgA==",
   "success": true,
   "projectFilePath": "/home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/CallingBotSample.csproj",
   "expectedPackageFiles": [
+    "/home/jon/.nuget/packages/microsoft.aspnet.webapi.client/5.2.2/microsoft.aspnet.webapi.client.5.2.2.nupkg.sha512",
     "/home/jon/.nuget/packages/microsoft.aspnetcore.jsonpatch/3.1.1/microsoft.aspnetcore.jsonpatch.3.1.1.nupkg.sha512",
     "/home/jon/.nuget/packages/microsoft.aspnetcore.mvc.newtonsoftjson/3.1.1/microsoft.aspnetcore.mvc.newtonsoftjson.3.1.1.nupkg.sha512",
     "/home/jon/.nuget/packages/microsoft.bot.builder/4.11.1/microsoft.bot.builder.4.11.1.nupkg.sha512",
@@ -137,11 +138,11 @@
   ],
   "logs": [
     {
-      "code": "NU1603",
+      "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "CallingBotSample depends on System.Net.Http.Formatting.Extension (>= 3.1.0) but System.Net.Http.Formatting.Extension 3.1.0 was not found. An approximate best match of System.Net.Http.Formatting.Extension 5.2.3 was resolved.",
-      "libraryId": "System.Net.Http.Formatting.Extension",
+      "message": "Package 'Microsoft.AspNet.WebApi.Client 5.2.2' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "Microsoft.AspNet.WebApi.Client",
       "targetGraphs": [
         ".NETCoreApp,Version=v3.1"
       ]

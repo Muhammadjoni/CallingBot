@@ -60,12 +60,6 @@ namespace CallingBotSample.Bots
 
         }
 
-        /// <summary>
-        /// Process "/callback" notifications asyncronously. 
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="response"></param>
-        /// <returns></returns>
         public async Task ProcessNotificationAsync(
             HttpRequest request,
             HttpResponse response)
@@ -265,4 +259,3 @@ namespace CallingBotSample.Bots
         }
     }
 }
-

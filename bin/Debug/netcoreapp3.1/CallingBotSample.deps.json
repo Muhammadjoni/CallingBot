@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v3.1": {
       "CallingBotSample/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.2",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "3.1.1",
           "Microsoft.Bot.Builder.Integration.AspNet.Core": "4.11.1",
           "Microsoft.Graph": "3.33.0",
@@ -320,6 +321,7 @@
           "CallingBotSample.dll": {}
         }
       },
+      "Microsoft.AspNet.WebApi.Client/5.2.2": {},
       "Microsoft.AspNetCore.JsonPatch/3.1.1": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -3325,6 +3327,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Microsoft.AspNet.WebApi.Client/5.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YVq+s0WeXrPxJk57CoElbtMYf95j76uJcW6nue3Cs4eIer9sgUp4rasSo0gALX3ls1Zf2jMceOLik9X/sJyrwA==",
+      "path": "microsoft.aspnet.webapi.client/5.2.2",
+      "hashPath": "microsoft.aspnet.webapi.client.5.2.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.JsonPatch/3.1.1": {
       "type": "package",

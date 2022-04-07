@@ -1,0 +1,38 @@
+{
+  "$schema": "https://github.com/OfficeDev/microsoft-teams-app-schema/blob/preview/DevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "eddbe35e-8260-4878-99d2-946c4aac73f4",
+  "packageName": "com.acs.sample",
+  "developer": {
+    "name": "Contoso",
+    "websiteUrl": "https://example.azurewebsites.net",
+    "privacyUrl": "https://teams.microsoft.com",
+    "termsOfUseUrl": "https://teams.microsoft.com"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Calling bot",
+    "full": "Calling bot"
+  },
+  "description": {
+    "short": "Calling bot",
+    "full": "Calling bot"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "ab1404b9-d8c7-4aa4-8802-f6ae6e057cba",
+      "scopes": [ "personal", "team", "groupchat" ],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "supportsCalling": false,
+      "supportsVideo": false
+    }
+  ],
+  "permissions": [ "identity", "messageTeamMembers" ],
+  "validDomains": [ "https://b43d-217-165-115-180.ngrok.io" ]
+}
