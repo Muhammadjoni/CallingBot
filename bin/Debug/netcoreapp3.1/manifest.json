@@ -1,5 +1,5 @@
 {
-  "$schema": "https://github.com/OfficeDev/microsoft-teams-app-schema/blob/preview/DevPreview/MicrosoftTeams.schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0.0",
   "id": "eddbe35e-8260-4878-99d2-946c4aac73f4",
@@ -29,10 +29,10 @@
       "scopes": [ "personal", "team", "groupchat" ],
       "supportsFiles": false,
       "isNotificationOnly": false,
-      "supportsCalling": false,
-      "supportsVideo": false
+      "supportsCalling": true,
+      "supportsVideo": true
     }
   ],
   "permissions": [ "identity", "messageTeamMembers" ],
-  "validDomains": [ "https://b43d-217-165-115-180.ngrok.io" ]
+  "validDomains": [ "https://dc5e-217-165-115-180.ngrok.io" ]
 }
