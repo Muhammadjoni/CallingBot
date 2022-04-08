@@ -45,173 +45,232 @@ namespace CallingBotSample.Helpers
             this.configuration = configuration;
             this.users = configuration.GetSection("Users").Get<Configuration.User[]>().AsEnumerable();
             this.graphServiceClient = graphServiceClient;
+
+          /// <inheritdoc/>
         }
 
-        /// <inheritdoc/>
-        public async Task<OnlineMeeting> CreateOnlineMeetingAsync()
-        {
-            try
-            {
-                var onlineMeeting = new OnlineMeeting
-                {
-                    StartDateTime = DateTime.UtcNow,
-                    EndDateTime = DateTime.UtcNow.AddMinutes(30),
-                    Subject = "Calling bot meeting",
-                };
-
-                var onlineMeetingResponse = await graphServiceClient.Users[this.configuration[Common.Constants.UserIdConfigurationSettingsKey]].OnlineMeetings
-                           .Request()
-                           .AddAsync(onlineMeeting);
-                return onlineMeetingResponse;
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, ex.Message);
-                return null;
-            }
-        }
-
-        public async Task<Call> CreateCallAsync()
-        {
+          public async Task<Call> CreateCallAsync()
+          {
             var call = new Call
             {
-                CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
-                TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey],
-                Targets = new List<InvitationParticipantInfo>()
-                    {
+              CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
+              TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey],
+              Targets = new List<InvitationParticipantInfo>()
+                        {
+                            new InvitationParticipantInfo
+                            {
+                                Identity = new IdentitySet
+                                {
+                                    User = new Identity
+                                    {
+                                        DisplayName = this.users.FirstOrDefault().DisplayName,
+                                        Id = this.users.FirstOrDefault().Id
+                                    }
+                                }
+                            }
+                        },
+              RequestedModalities = new List<Modality>()
+                        {
+                            Modality.Audio
+                        },
+              MediaConfig = new ServiceHostedMediaConfig
+              {
+              }
+            };
+
+            return await graphServiceClient.Communications.Calls
+                .Request()
+                .AddAsync(call);
+          }
+
+          public async Task TransferCallAsync(string replaceCallId)
+          {
+            _ = Task.Run(async () =>
+            {
+              await Task.Delay(15000);
+              var transferTarget = new InvitationParticipantInfo
+              {
+                Identity = new IdentitySet
+                {
+                  User = new Identity
+                  {
+                    DisplayName = this.users.ElementAt(1).DisplayName,
+                    Id = this.users.ElementAt(1).Id
+                  }
+                },
+                AdditionalData = new Dictionary<string, object>()
+                        {
+                                {"endpointType", "default"}
+                        },
+                    //ReplacesCallId = targetCallResponse.Id
+                  };
+
+              try
+              {
+                await graphServiceClient.Communications.Calls[replaceCallId]
+                        .Transfer(transferTarget)
+                        .Request()
+                        .PostAsync();
+              }
+              catch (System.Exception ex)
+              {
+
+                throw ex;
+              }
+            });
+          }
+
+
+
+
+          public void InviteParticipant(string meetingId)
+          {
+            _ = Task.Run(async () =>
+            {
+              await Task.Delay(10000);
+
+              try
+              {
+                var participants = new List<InvitationParticipantInfo>()
+                {
                         new InvitationParticipantInfo
                         {
                             Identity = new IdentitySet
                             {
                                 User = new Identity
                                 {
-                                    DisplayName = this.users.FirstOrDefault().DisplayName,
-                                    Id = this.users.FirstOrDefault().Id
+                                    DisplayName = this.users.ElementAt(2).DisplayName,
+                                    Id = this.users.ElementAt(2).Id
                                 }
                             }
                         }
-                    },
-                RequestedModalities = new List<Modality>()
-                    {
-                        Modality.Audio
-                    },
-                MediaConfig = new ServiceHostedMediaConfig
-                {
-                }
-            };
-
-            return await graphServiceClient.Communications.Calls
-                .Request()
-                .AddAsync(call);
-        }
-
-        public async Task TransferCallAsync(string replaceCallId)
-        {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(15000);
-                var transferTarget = new InvitationParticipantInfo
-                {
-                    Identity = new IdentitySet
-                    {
-                        User = new Identity
-                        {
-                            DisplayName = this.users.ElementAt(1).DisplayName,
-                            Id = this.users.ElementAt(1).Id
-                        }
-                    },
-                    AdditionalData = new Dictionary<string, object>()
-                         {
-                            {"endpointType", "default"}
-                         },
-                    //ReplacesCallId = targetCallResponse.Id
                 };
 
-                try
-                {
-                    await graphServiceClient.Communications.Calls[replaceCallId]
-                        .Transfer(transferTarget)
-                        .Request()
-                        .PostAsync();
-                }
-                catch (System.Exception ex)
-                {
-
-                    throw ex;
-                }
+                var statefulCall = await graphServiceClient.Communications.Calls[meetingId].Participants
+                      .Invite(participants)
+                      .Request()
+                      .PostAsync();
+              }
+              catch (Exception ex)
+              {
+                throw ex;
+              }
             });
-        }
+          }
 
-        public async Task<Call> JoinScheduledMeeting(string meetingUrl)
-        {
-            try
+            public async Task<OnlineMeeting> CreateOnlineMeetingAsync()
             {
-                MeetingInfo meetingInfo;
-                ChatInfo chatInfo;
-
-                (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
-
-                var call = new Call
-                {
-                    CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
-                    RequestedModalities = new List<Modality>()
-                    {
-                        Modality.Audio
-                    },
-                    MediaConfig = new ServiceHostedMediaConfig
-                    {
-                    },
-                    ChatInfo = chatInfo,
-                    MeetingInfo = meetingInfo,
-                    TenantId = (meetingInfo as OrganizerMeetingInfo)?.Organizer.GetPrimaryIdentity()?.GetTenantId()
-                };
-
-                var statefulCall = await graphServiceClient.Communications.Calls
-                        .Request()
-                        .AddAsync(call);
-
-                return statefulCall;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public void InviteParticipant(string meetingId)
-        {
-            _ = Task.Run(async () =>
-            {
-                await Task.Delay(10000);
-
                 try
                 {
-                    var participants = new List<InvitationParticipantInfo>()
-                {
-                    new InvitationParticipantInfo
+                    var onlineMeeting = new OnlineMeeting
                     {
-                        Identity = new IdentitySet
-                        {
-                            User = new Identity
-                            {
-                                DisplayName = this.users.ElementAt(2).DisplayName,
-                                Id = this.users.ElementAt(2).Id
-                            }
-                        }
-                    }
-                };
+                        StartDateTime = DateTime.UtcNow,
+                        EndDateTime = DateTime.UtcNow.AddMinutes(30),
+                        Subject = "Calling bot meeting",
+                    };
 
-                    var statefulCall = await graphServiceClient.Communications.Calls[meetingId].Participants
-                       .Invite(participants)
-                       .Request()
-                       .PostAsync();
+                    var onlineMeetingResponse = await graphServiceClient.Users[this.configuration[Common.Constants.UserIdConfigurationSettingsKey]].OnlineMeetings
+                              .Request()
+                              .AddAsync(onlineMeeting);
+                    return onlineMeetingResponse;
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    this.logger.LogError(ex, ex.Message);
+                    return null;
                 }
-            });
-        }
+            }
 
+    public async Task<Call> JoinScheduledMeeting(string meetingUrl)
+    {
+      try
+      {
+        MeetingInfo meetingInfo;
+        ChatInfo chatInfo;
+
+        (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
+
+        var call = new Call
+        {
+          CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
+          RequestedModalities = new List<Modality>()
+                    {
+                        Modality.Audio
+                    },
+          MediaConfig = new ServiceHostedMediaConfig
+          {
+          },
+          ChatInfo = chatInfo,
+          MeetingInfo = meetingInfo,
+          TenantId = (meetingInfo as OrganizerMeetingInfo)?.Organizer.GetPrimaryIdentity()?.GetTenantId()
+        };
+
+        var statefulCall = await graphServiceClient.Communications.Calls
+                .Request()
+                .AddAsync(call);
+
+        return statefulCall;
+      }
+      catch (Exception)
+      {
+        return null;
+      }
     }
+
+
+    // public async Task<Call> JoinScheduledMeeting(string meetingUrl)
+    // {
+    //     try
+    //     {
+    //         MeetingInfo meetingInfo;
+    //         ChatInfo chatInfo;
+
+    //         (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
+
+    //         var call = new Call
+    //         {
+    //             CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
+
+    //             RequestedModalities = new List<Modality>()
+    //             {
+    //                 Modality.Audio
+    //             },
+
+    //             MediaConfig = new ServiceHostedMediaConfig
+    //             {
+    //             },
+
+    //           // this.configuration[Common.Constants.ThreadIdConfigurationSettingsKey]
+    //           //   this.configuration[Common.Constants.UserIdConfigurationSettingsKey]
+    //             ChatInfo = new ChatInfo
+    //             {
+    //               ThreadId = this.configuration[Common.Constants.ThreadIdConfigurationSettingsKey],
+    //               MessageId = "0",
+    //               ReplyChainMessageId = null
+    //             },
+
+    //             MeetingInfo = new OrganizerMeetingInfo
+    //             {
+    //               Organizer = new IdentitySet
+    //               {
+    //                 User = new Identity { Id = this.configuration[Common.Constants.UserIdConfigurationSettingsKey] }
+    //               }
+    //             },
+
+    //             TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey]
+    //         };
+
+    //         var statefulCall = await graphServiceClient.Communications.Calls
+    //                 .Request()
+    //                 .AddAsync(call);
+
+    //         return statefulCall;
+    //     }
+    //     catch (Exception)
+    //     {
+    //         return null;
+    //     }
+    // }
+
+  }
 }
