@@ -167,26 +167,25 @@ namespace CallingBotSample.Bots
                     var onlineMeeting = await graph.CreateOnlineMeetingAsync();
                     if (onlineMeeting != null)
                     {
-                        var statefullCall = await graph.JoinScheduledMeeting(onlineMeeting.JoinWebUrl);
+                        var statefullCall = await graph.JoinScheduledMeeting((onlineMeeting.Participants.Organizer.Identity.User.Id).ToString, (onlineMeeting.ChatInfo.ThreadId).ToString);
                         if (statefullCall != null)
                         {
                             await turnContext.SendActivityAsync($"[Click here to Join the meeting]({onlineMeeting.JoinWebUrl})");
                         }
                     }
                     break;
-                case "inviteparticipant":
-                    var meeting = await graph.CreateOnlineMeetingAsync();
-                    if (meeting != null)
-                    {
-                        var statefullCall = await graph.JoinScheduledMeeting(meeting.JoinWebUrl);
-                        if (statefullCall != null)
-                        {
-
-                            graph.InviteParticipant(statefullCall.Id);
-                            await turnContext.SendActivityAsync("Invited participant successfuly");
-                        }
-                    }
-                    break;
+                // case "inviteparticipant":
+                //     var meeting = await graph.CreateOnlineMeetingAsync();
+                //     if (meeting != null)
+                //     {
+                //         var statefullCall = await graph.JoinScheduledMeeting(meeting.JoinWebUrl);
+                //         if (statefullCall != null)
+                        // {
+                //             graph.InviteParticipant(statefullCall.Id);
+                //             await turnContext.SendActivityAsync("Invited participant successfuly");
+                //         }
+                //     }
+                //     break;
                 default:
                     await turnContext.SendActivityAsync("Welcome to bot");
                     break;

@@ -83,42 +83,44 @@ namespace CallingBotSample.Helpers
                 .AddAsync(call);
           }
 
-          public async Task TransferCallAsync(string replaceCallId)
-          {
-            _ = Task.Run(async () =>
-            {
-              await Task.Delay(15000);
-              var transferTarget = new InvitationParticipantInfo
-              {
-                Identity = new IdentitySet
-                {
-                  User = new Identity
-                  {
-                    DisplayName = this.users.ElementAt(1).DisplayName,
-                    Id = this.users.ElementAt(1).Id
-                  }
-                },
-                AdditionalData = new Dictionary<string, object>()
-                        {
-                                {"endpointType", "default"}
-                        },
-                    //ReplacesCallId = targetCallResponse.Id
-                  };
+    // public async Task<Call> AddBotToCallAsync(string threadId, string organizerId)
 
-              try
-              {
-                await graphServiceClient.Communications.Calls[replaceCallId]
-                        .Transfer(transferTarget)
-                        .Request()
-                        .PostAsync();
-              }
-              catch (System.Exception ex)
-              {
+    //       public async Task TransferCallAsync(string replaceCallId)
+    //       {
+    //         _ = Task.Run(async () =>
+    //         {
+    //           await Task.Delay(15000);
+    //           var transferTarget = new InvitationParticipantInfo
+    //           {
+    //             Identity = new IdentitySet
+    //             {
+    //               User = new Identity
+    //               {
+    //                 DisplayName = this.users.ElementAt(1).DisplayName,
+    //                 Id = this.users.ElementAt(1).Id
+    //               }
+    //             },
+    //             AdditionalData = new Dictionary<string, object>()
+    //                     {
+    //                             {"endpointType", "default"}
+    //                     },
+    //                 //ReplacesCallId = targetCallResponse.Id
+    //               };
 
-                throw ex;
-              }
-            });
-          }
+    //           try
+    //           {
+    //             await graphServiceClient.Communications.Calls[replaceCallId]
+    //                     .Transfer(transferTarget)
+    //                     .Request()
+    //                     .PostAsync();
+    //           }
+    //           catch (System.Exception ex)
+    //           {
+
+    //             throw ex;
+    //           }
+    //         });
+    //       }
 
 
 
@@ -181,54 +183,57 @@ namespace CallingBotSample.Helpers
                 }
             }
 
-    public async Task<Call> JoinScheduledMeeting(string meetingUrl)
+    public async Task<Call> JoinScheduledMeeting(string threadId, string organizerId)
     {
-      try
+
+      var meetingInfo = new OrganizerMeetingInfo
       {
-        MeetingInfo meetingInfo;
-        ChatInfo chatInfo;
-
-        (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
-
-        var call = new Call
+        Organizer = new IdentitySet
         {
-          CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
-          RequestedModalities = new List<Modality>()
-                    {
-                        Modality.Audio
-                    },
-          MediaConfig = new ServiceHostedMediaConfig
-          {
-          },
-          ChatInfo = chatInfo,
-          MeetingInfo = meetingInfo,
-          TenantId = (meetingInfo as OrganizerMeetingInfo)?.Organizer.GetPrimaryIdentity()?.GetTenantId()
-        };
+          User = new Identity { Id = organizerId },
+        },
+      };
+      meetingInfo.Organizer.User.SetTenantId(this.configuration[Common.Constants.TenantIdConfigurationSettingsKey]);
 
-        var statefulCall = await graphServiceClient.Communications.Calls
-                .Request()
-                .AddAsync(call);
 
-        return statefulCall;
-      }
-      catch (Exception)
+      var call = new Call
       {
-        return null;
-      }
+        CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
+        ChatInfo = new ChatInfo
+        {
+          ThreadId = threadId,
+          MessageId = "0"
+        },
+
+        TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey],
+        RequestedModalities = new List<Modality>() { Modality.Audio, Modality.Video, Modality.VideoBasedScreenSharing },
+
+
+        MediaConfig = new ServiceHostedMediaConfig(),
+        MeetingInfo = meetingInfo
+      };
+
+
+      var callResponse = await graphServiceClient.Communications.Calls
+      .Request()
+      .AddAsync(call);
+
+      return callResponse;
     }
+
 
 
     // public async Task<Call> JoinScheduledMeeting(string meetingUrl)
     // {
-    //     try
+    // try
+    // {
+    //    // MeetingInfo meetingInfo;
+    //    // ChatInfo chatInfo;
+
+    //    // (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
+
+    //     var call = new Call
     //     {
-    //         MeetingInfo meetingInfo;
-    //         ChatInfo chatInfo;
-
-    //         (chatInfo, meetingInfo) = JoinInfo.ParseJoinURL(meetingUrl);
-
-    //         var call = new Call
-    //         {
     //             CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
 
     //             RequestedModalities = new List<Modality>()

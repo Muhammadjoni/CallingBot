@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.5",
+  "devPreview": "1.5",
   "version": "1.0.0",
   "id": "eddbe35e-8260-4878-99d2-946c4aac73f4",
   "packageName": "com.acs.sample",
@@ -34,5 +34,5 @@
     }
   ],
   "permissions": [ "identity", "messageTeamMembers" ],
-  "validDomains": [ "https://70bc-217-165-115-180.ngrok.io" ]
+  "validDomains": [ "https://7522-217-165-115-180.ngrok.io" ]
 }
