@@ -29,12 +29,12 @@ namespace CallingBotSample.Interfaces
         /// </summary>
         /// <returns>Call.</returns>
 
-        // Task TransferCallAsync(string replaceCallId);
+        Task TransferCallAsync(string replaceCallId);
 
-        // /// <summary>
-        // /// Join Scheduled Meeting.
-        // /// </summary>
-        // /// <returns>JoinScheduledMeeting.</returns>
+        /// <summary>
+        /// Join Scheduled Meeting.
+        /// </summary>
+        /// <returns>JoinScheduledMeeting.</returns>
         Task<Call> JoinScheduledMeeting(string threadId, string organizerId);
 
         /// <summary>

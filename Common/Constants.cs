@@ -16,11 +16,12 @@ namespace CallingBotSample.Common
         /// <summary>
         /// Azure Tenant Id.
         /// </summary>
-        public const string TenantIdConfigurationSettingsKey = "AzureAd:TenantId";
-        public const string ThreadIdConfigurationSettingsKey = "AzureAd:ThreadId";
+        public const string TenantIdConfigurationSettingsKey = "TenantId";
+        public const string ThreadIdConfigurationSettingsKey = "threadId";
         /// <summary>
         /// Azure ClientSecret .
         /// </summary>
+        public const string MeetingUrlConfigurationSettingsKey = "MeetingURL";
         public const string ClientSecretConfigurationSettingsKey = "AzureAd:ClientSecret";
 
         public const string UserIdConfigurationSettingsKey = "UserId";

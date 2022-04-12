@@ -57,7 +57,6 @@ namespace CallingBotSample.Bots
             this.Serializer = new CommsSerializer();
             this.NotificationProcessor = new NotificationProcessor(Serializer);
             this.NotificationProcessor.OnNotificationReceived += this.NotificationProcessor_OnNotificationReceived;
-
         }
 
         public async Task ProcessNotificationAsync(
@@ -164,15 +163,16 @@ namespace CallingBotSample.Bots
                     }
                     break;
                 case "joinscheduledmeeting":
-                    var onlineMeeting = await graph.CreateOnlineMeetingAsync();
-                    if (onlineMeeting != null)
-                    {
-                        var statefullCall = await graph.JoinScheduledMeeting((onlineMeeting.Participants.Organizer.Identity.User.Id).ToString, (onlineMeeting.ChatInfo.ThreadId).ToString);
+                    // var onlineMeeting = await graph.CreateOnlineMeetingAsync();
+                    // if (onlineMeeting != null)
+                    // {
+                        var statefullCall = await graph.JoinScheduledMeeting(this.configuration[Common.Constants.ThreadIdConfigurationSettingsKey], this.configuration[Common.Constants.UserIdConfigurationSettingsKey]);
                         if (statefullCall != null)
                         {
-                            await turnContext.SendActivityAsync($"[Click here to Join the meeting]({onlineMeeting.JoinWebUrl})");
+                            // var JoinWebUrl = "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NDI3NTk5MTYtZDg2NC00ZjY2LTlhZjctY2YxNjZmNjc5NjYy%40thread.v2/0?context=%7b%22Tid%22%3a%22603439c3-58ad-4a91-8ed3-b53e9a8677b3%22%2c%22Oid%22%3a%222bef8a9f-25bf-4959-9851-ec0ca99f023a%22%7d";
+                            await turnContext.SendActivityAsync($"[Click here to Join the meeting]({this.configuration[Common.Constants.MeetingUrlConfigurationSettingsKey]})");
                         }
-                    }
+                    // }
                     break;
                 // case "inviteparticipant":
                 //     var meeting = await graph.CreateOnlineMeetingAsync();
@@ -209,7 +209,6 @@ namespace CallingBotSample.Bots
                     await this.BotAnswerIncomingCallAsync(call.Id, args.TenantId, args.ScenarioId).ConfigureAwait(false);
                 }
             }
-
         }
 
         private async Task BotAnswerIncomingCallAsync(string callId, string tenantId, Guid scenarioId)

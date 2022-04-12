@@ -85,42 +85,42 @@ namespace CallingBotSample.Helpers
 
     // public async Task<Call> AddBotToCallAsync(string threadId, string organizerId)
 
-    //       public async Task TransferCallAsync(string replaceCallId)
-    //       {
-    //         _ = Task.Run(async () =>
-    //         {
-    //           await Task.Delay(15000);
-    //           var transferTarget = new InvitationParticipantInfo
-    //           {
-    //             Identity = new IdentitySet
-    //             {
-    //               User = new Identity
-    //               {
-    //                 DisplayName = this.users.ElementAt(1).DisplayName,
-    //                 Id = this.users.ElementAt(1).Id
-    //               }
-    //             },
-    //             AdditionalData = new Dictionary<string, object>()
-    //                     {
-    //                             {"endpointType", "default"}
-    //                     },
-    //                 //ReplacesCallId = targetCallResponse.Id
-    //               };
+          public async Task TransferCallAsync(string replaceCallId)
+          {
+            _ = Task.Run(async () =>
+            {
+              await Task.Delay(15000);
+              var transferTarget = new InvitationParticipantInfo
+              {
+                Identity = new IdentitySet
+                {
+                  User = new Identity
+                  {
+                    DisplayName = this.users.ElementAt(1).DisplayName,
+                    Id = this.users.ElementAt(1).Id
+                  }
+                },
+                AdditionalData = new Dictionary<string, object>()
+                        {
+                                {"endpointType", "default"}
+                        },
+                    //ReplacesCallId = targetCallResponse.Id
+                  };
 
-    //           try
-    //           {
-    //             await graphServiceClient.Communications.Calls[replaceCallId]
-    //                     .Transfer(transferTarget)
-    //                     .Request()
-    //                     .PostAsync();
-    //           }
-    //           catch (System.Exception ex)
-    //           {
+              try
+              {
+                await graphServiceClient.Communications.Calls[replaceCallId]
+                        .Transfer(transferTarget)
+                        .Request()
+                        .PostAsync();
+              }
+              catch (System.Exception ex)
+              {
 
-    //             throw ex;
-    //           }
-    //         });
-    //       }
+                throw ex;
+              }
+            });
+          }
 
 
 
@@ -160,6 +160,7 @@ namespace CallingBotSample.Helpers
             });
           }
 
+
             public async Task<OnlineMeeting> CreateOnlineMeetingAsync()
             {
                 try
@@ -183,43 +184,44 @@ namespace CallingBotSample.Helpers
                 }
             }
 
-    public async Task<Call> JoinScheduledMeeting(string threadId, string organizerId)
-    {
 
-      var meetingInfo = new OrganizerMeetingInfo
-      {
-        Organizer = new IdentitySet
-        {
-          User = new Identity { Id = organizerId },
-        },
-      };
-      meetingInfo.Organizer.User.SetTenantId(this.configuration[Common.Constants.TenantIdConfigurationSettingsKey]);
+            public async Task<Call> JoinScheduledMeeting(string threadId, string organizerId)
+            {
 
-
-      var call = new Call
-      {
-        CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
-        ChatInfo = new ChatInfo
-        {
-          ThreadId = threadId,
-          MessageId = "0"
-        },
-
-        TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey],
-        RequestedModalities = new List<Modality>() { Modality.Audio, Modality.Video, Modality.VideoBasedScreenSharing },
+              var meetingInfo = new OrganizerMeetingInfo
+              {
+                Organizer = new IdentitySet
+                {
+                  User = new Identity { Id = organizerId },
+                },
+              };
+              meetingInfo.Organizer.User.SetTenantId(this.configuration[Common.Constants.TenantIdConfigurationSettingsKey]);
 
 
-        MediaConfig = new ServiceHostedMediaConfig(),
-        MeetingInfo = meetingInfo
-      };
+              var call = new Call
+              {
+                CallbackUri = $"{this.configuration[Common.Constants.BotBaseUrlConfigurationSettingsKey]}/callback",
+                ChatInfo = new ChatInfo
+                {
+                  ThreadId = threadId,
+                  MessageId = "0"
+                },
+
+                TenantId = this.configuration[Common.Constants.TenantIdConfigurationSettingsKey],
+                RequestedModalities = new List<Modality>() { Modality.Audio, Modality.Video, Modality.VideoBasedScreenSharing },
 
 
-      var callResponse = await graphServiceClient.Communications.Calls
-      .Request()
-      .AddAsync(call);
+                MediaConfig = new ServiceHostedMediaConfig(),
+                MeetingInfo = meetingInfo
+              };
 
-      return callResponse;
-    }
+
+              var callResponse = await graphServiceClient.Communications.Calls
+              .Request()
+              .AddAsync(call);
+
+              return callResponse;
+            }
 
 
 
