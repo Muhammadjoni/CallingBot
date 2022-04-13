@@ -34,5 +34,5 @@
     }
   ],
   "permissions": [ "identity", "messageTeamMembers" ],
-  "validDomains": [ "https://1fb4-217-165-115-180.ngrok.io" ]
+  "validDomains": [ "https://be5d-217-165-115-180.ngrok.io" ]
 }

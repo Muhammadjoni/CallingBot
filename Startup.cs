@@ -5,6 +5,7 @@
 
 using CallingBotSample.Bots;
 using CallingBotSample.Configuration;
+using CallingBotSample.DB;
 using CallingBotSample.Extensions;
 using CallingBotSample.Helpers;
 using CallingBotSample.Interfaces;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,6 +48,7 @@ namespace CallingBotSample
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddBot(options => this.Configuration.Bind("Bot", options));
 
