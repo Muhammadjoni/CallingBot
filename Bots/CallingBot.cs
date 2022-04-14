@@ -125,23 +125,6 @@ namespace CallingBotSample.Bots
             }
         }
 
-        // protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        // {
-        //     if (string.IsNullOrEmpty(turnContext.Activity.Text))
-        //     {
-        //         dynamic value = turnContext.Activity.Value;
-        //         if (value != null)
-        //         {
-        //             string type = value["type"];
-        //             type = string.IsNullOrEmpty(type) ? "." : type.ToLower();
-        //             await SendReponse(turnContext, type, cancellationToken);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         await SendReponse(turnContext, turnContext.Activity.Text.Trim().ToLower(), cancellationToken);
-        //     }
-        // }
 
         private async Task SendReponse(ITurnContext<IMessageActivity> turnContext, string input, CancellationToken cancellationToken)
         {
@@ -256,5 +239,22 @@ namespace CallingBotSample.Bots
             }
           );
         }
+        // protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        // {
+        //     if (string.IsNullOrEmpty(turnContext.Activity.Text))
+        //     {
+        //         dynamic value = turnContext.Activity.Value;
+        //         if (value != null)
+        //         {
+        //             string type = value["type"];
+        //             type = string.IsNullOrEmpty(type) ? "." : type.ToLower();
+        //             await SendReponse(turnContext, type, cancellationToken);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         await SendReponse(turnContext, turnContext.Activity.Text.Trim().ToLower(), cancellationToken);
+        //     }
+        // }
     }
 }

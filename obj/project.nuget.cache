@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "VYx/oZmJ7iHjOb46bBGNduumovf1yZEAX4QzqMaxSXecmS+u1HTRqa7y01pyQTJ4b5Dbg5NBROzvuNEK6mzDQw==",
-  "success": true,
+  "dgSpecHash": "+mroORq+wKNvoZ/8wYejQWITXvX1VigD3JT4n9f6Z3Y1bWHqQol0SmHetJPUWo6uocNbLrA3F5lTzGFOkSDSCg==",
+  "success": false,
   "projectFilePath": "/home/jon/code/Muhammadjoni/Microsoft-Teams-Samples/samples/bot-calling-meeting/csharp/CallingBotSample.csproj",
   "expectedPackageFiles": [
     "/home/jon/.nuget/packages/microsoft.aspnet.webapi.client/5.2.2/microsoft.aspnet.webapi.client.5.2.2.nupkg.sha512",
@@ -174,6 +174,15 @@
     "/home/jon/.nuget/packages/system.xml.xmlserializer/4.3.0/system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package NewtonsoftJson. No packages exist with this id in source(s): nuget.org",
+      "libraryId": "NewtonsoftJson",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",
