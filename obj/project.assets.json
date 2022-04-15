@@ -8383,7 +8383,6 @@
       "Microsoft.Graph.Auth >= 1.0.0-preview.7",
       "Microsoft.Graph.Communications.Calls >= 1.2.0.850",
       "Microsoft.Graph.Communications.Core >= 1.2.0.850",
-      "NewtonsoftJson >= 3.1.1",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 3.1.0",
       "Npgsql.EntityFrameworkCore.PostgreSQL.Design >= 1.1.1",
       "System.Net.Http.Formatting.Extension >= 5.2.3"
@@ -8470,10 +8469,6 @@
             "target": "Package",
             "version": "[1.2.0.850, )"
           },
-          "NewtonsoftJson": {
-            "target": "Package",
-            "version": "[3.1.1, )"
-          },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",
             "version": "[3.1.0, )"
@@ -8510,15 +8505,6 @@
     }
   },
   "logs": [
-    {
-      "code": "NU1101",
-      "level": "Error",
-      "message": "Unable to find package NewtonsoftJson. No packages exist with this id in source(s): nuget.org",
-      "libraryId": "NewtonsoftJson",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v3.1"
-      ]
-    },
     {
       "code": "NU1701",
       "level": "Warning",

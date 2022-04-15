@@ -31,5 +31,12 @@ namespace CallingBotSample.Common
         public const string MicrosoftAppIdConfigurationSettingsKey = "MicrosoftAppId";
 
         public const string BotBaseUrlConfigurationSettingsKey = "BotBaseUrl";
+
+        public const string MuteMicConfigurationSettingsKey = "MuteMic";
+        public const string UnmuteMicConfigurationSettingsKey = "UnmuteMic";
+        public const string JoinCallConfigurationSettingsKey = "JoinCall";
+        public const string LeaveCallConfigurationSettingsKey = "LeaveCall";
+        public const string MuteSpeakerConfigurationSettingsKey = "MuteSpeaker";
+
     }
 }

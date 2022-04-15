@@ -16,10 +16,12 @@ using Microsoft.Graph.Communications.Common.Telemetry;
 using Microsoft.Graph.Communications.Core.Notifications;
 using Microsoft.Graph.Communications.Core.Serialization;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace CallingBotSample.Bots
@@ -71,6 +73,20 @@ namespace CallingBotSample.Bots
                 {
                     var httpResponse = await this.NotificationProcessor.ProcessNotificationAsync(httpRequest).ConfigureAwait(false);
                     await httpResponse.CreateHttpResponseAsync(response).ConfigureAwait(false);
+
+
+
+                    // var options = new JsonSerializerOptions { WriteIndented = true };
+                    // string jsonString = JsonConvert.SerializeObject(httpRequest);
+
+                    // Console.WriteLine(jsonString);
+
+                    // var fileName = "HttpResponse.json";
+                    // var jsonString = JsonSerializer.Serialize(httpResponse);
+                    // File.WriteAllText(fileName, jsonString);
+
+                    // Console.WriteLine(File.ReadAllText(fileName));
+
                 }
                 else
                 {
@@ -130,21 +146,6 @@ namespace CallingBotSample.Bots
         {
             switch (input)
             {
-                case "createcall":
-                    var call = await graph.CreateCallAsync();
-                    if (call != null)
-                    {
-                        await turnContext.SendActivityAsync("Placed a call Successfully.");
-                    }
-                    break;
-                case "transfercall":
-                    var sourceCallResponse = await graph.CreateCallAsync();
-                    if (sourceCallResponse != null)
-                    {
-                        await turnContext.SendActivityAsync("Transferring the call!");
-                        await graph.TransferCallAsync(sourceCallResponse.Id);
-                    }
-                    break;
                 case "joinscheduledmeeting":
                     // var onlineMeeting = await graph.CreateOnlineMeetingAsync();
                     // if (onlineMeeting != null)
@@ -157,6 +158,21 @@ namespace CallingBotSample.Bots
                         }
                     // }
                     break;
+                // case "createcall":
+                //     var call = await graph.CreateCallAsync();
+                //     if (call != null)
+                //     {
+                //         await turnContext.SendActivityAsync("Placed a call Successfully.");
+                //     }
+                //     break;
+                // case "transfercall":
+                //     var sourceCallResponse = await graph.CreateCallAsync();
+                //     if (sourceCallResponse != null)
+                //     {
+                //         await turnContext.SendActivityAsync("Transferring the call!");
+                //         await graph.TransferCallAsync(sourceCallResponse.Id);
+                //     }
+                //     break;
                 // case "inviteparticipant":
                 //     var meeting = await graph.CreateOnlineMeetingAsync();
                 //     if (meeting != null)
@@ -180,6 +196,7 @@ namespace CallingBotSample.Bots
             _ = NotificationProcessor_OnNotificationReceivedAsync(args).ForgetAndLogExceptionAsync(
               this.GraphLogger,
               $"Error processing notification {args.Notification.ResourceUrl} with scenario {args.ScenarioId}");
+
         }
 
         private async Task NotificationProcessor_OnNotificationReceivedAsync(NotificationEventArgs args)
@@ -191,9 +208,19 @@ namespace CallingBotSample.Bots
                 {
                     await this.BotAnswerIncomingCallAsync(call.Id, args.TenantId, args.ScenarioId).ConfigureAwait(false);
                 }
+
             }
         }
 
+        // private async Task TraceCallback(NotificationEventArgs args, ITurnContext<IMessageActivity> turnContext )
+        // {
+        //   var activity = turnContext.Activity;
+
+        //     if (args.RequestId == this.configuration[Common.Constants.MuteMicConfigurationSettingsKey])
+        //     {
+        //       await activity.
+        //     }
+        // }
 
         private async Task BotAnswerIncomingCallAsync(string callId, string tenantId, Guid scenarioId)
         {
@@ -239,22 +266,23 @@ namespace CallingBotSample.Bots
             }
           );
         }
-        // protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        // {
-        //     if (string.IsNullOrEmpty(turnContext.Activity.Text))
-        //     {
-        //         dynamic value = turnContext.Activity.Value;
-        //         if (value != null)
-        //         {
-        //             string type = value["type"];
-        //             type = string.IsNullOrEmpty(type) ? "." : type.ToLower();
-        //             await SendReponse(turnContext, type, cancellationToken);
-        //         }
-        //     }
-        //     else
-        //     {
-        //         await SendReponse(turnContext, turnContext.Activity.Text.Trim().ToLower(), cancellationToken);
-        //     }
-        // }
+
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrEmpty(turnContext.Activity.Text))
+            {
+                dynamic value = turnContext.Activity.Value;
+                if (value != null)
+                {
+                    string type = value["type"];
+                    type = string.IsNullOrEmpty(type) ? "." : type.ToLower();
+                    await SendReponse(turnContext, type, cancellationToken);
+                }
+            }
+            else
+            {
+                await SendReponse(turnContext, turnContext.Activity.Text.Trim().ToLower(), cancellationToken);
+            }
+        }
     }
 }
