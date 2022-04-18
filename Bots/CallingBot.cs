@@ -61,6 +61,7 @@ namespace CallingBotSample.Bots
             this.NotificationProcessor.OnNotificationReceived += this.NotificationProcessor_OnNotificationReceived;
         }
 
+
         public async Task ProcessNotificationAsync(
             HttpRequest request,
             HttpResponse response)
@@ -196,7 +197,6 @@ namespace CallingBotSample.Bots
             _ = NotificationProcessor_OnNotificationReceivedAsync(args).ForgetAndLogExceptionAsync(
               this.GraphLogger,
               $"Error processing notification {args.Notification.ResourceUrl} with scenario {args.ScenarioId}");
-
         }
 
         private async Task NotificationProcessor_OnNotificationReceivedAsync(NotificationEventArgs args)
@@ -208,8 +208,8 @@ namespace CallingBotSample.Bots
                 {
                     await this.BotAnswerIncomingCallAsync(call.Id, args.TenantId, args.ScenarioId).ConfigureAwait(false);
                 }
-
             }
+            Console.WriteLine(args.ResourceData);
         }
 
         // private async Task TraceCallback(NotificationEventArgs args, ITurnContext<IMessageActivity> turnContext )
@@ -224,7 +224,6 @@ namespace CallingBotSample.Bots
 
         private async Task BotAnswerIncomingCallAsync(string callId, string tenantId, Guid scenarioId)
         {
-
             Task answerTask = Task.Run(async () =>
                                 await this.graphServiceClient.Communications.Calls[callId].Answer(
                                     callbackUri: new Uri(options.BotBaseUrl, "callback").ToString(),
