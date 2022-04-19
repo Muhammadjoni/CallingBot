@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CallingBotSample.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220413071207_Initials")]
-    partial class Initials
+    [Migration("20220418070514_InitialSetup")]
+    partial class InitialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,19 +20,21 @@ namespace CallingBotSample.Migrations
                 .HasAnnotation("ProductVersion", "3.1.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("CallingBotSample.Model.Actions", b =>
+            modelBuilder.Entity("CallingBotSample.Model.CallDetails", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                    b.Property<string>("CallId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ParticipantId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ParticipantName")
+                        .HasColumnType("text");
 
                     b.Property<string>("State")
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Actions");
+                    b.ToTable("CallDetails");
                 });
 #pragma warning restore 612, 618
         }

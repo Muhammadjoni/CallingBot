@@ -23,6 +23,7 @@ using System.Net.Http;
 using System.Threading;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CallingBotSample.Bots
 {
@@ -101,6 +102,10 @@ namespace CallingBotSample.Bots
                 await response.WriteAsync(e.ToString()).ConfigureAwait(false);
             }
         }
+
+    // var participants = (args.ResourceData as ICollection<object>).Select(x => x as Participant);
+    // List<Participant> currentParticipants = new List<Participant>();
+    // currentParticipants = participants.ToList();
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
@@ -208,8 +213,12 @@ namespace CallingBotSample.Bots
                 {
                     await this.BotAnswerIncomingCallAsync(call.Id, args.TenantId, args.ScenarioId).ConfigureAwait(false);
                 }
+
+                var participants = (args.ResourceData as ICollection<object>).Select(x => x as Participant);
+                List<Participant> currentParticipants = new List<Participant>();
+                currentParticipants = participants.ToList();
+                Console.WriteLine(participants);
             }
-            Console.WriteLine(args.ResourceData);
         }
 
         // private async Task TraceCallback(NotificationEventArgs args, ITurnContext<IMessageActivity> turnContext )

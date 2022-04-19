@@ -20,8 +20,10 @@ namespace CallingBotSample.DB
     }
 
     // public virtual DbSet<User> Users { get; set; }
-    public DbSet<Actions> Actions { get; set; }
-    // public DbSet<ParticipantDetails> Participants { get; set; }
+
+    public DbSet<CallDetails> CallDetails { get; set; }
+    public DbSet<ParticipantDetails> ParticipantDetails { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -41,6 +43,10 @@ namespace CallingBotSample.DB
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
+
+      modelBuilder.Entity<CallDetails>().HasNoKey();
+      modelBuilder.Entity<ParticipantDetails>().HasNoKey();
+
     }
 
   }

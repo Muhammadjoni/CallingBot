@@ -18,6 +18,12 @@ namespace CallingBotSample.Interfaces
         /// <returns>online event.</returns>
         Task<OnlineMeeting> CreateOnlineMeetingAsync();
 
+        /// <summary>
+        /// Join Scheduled Meeting.
+        /// </summary>
+        /// <returns>JoinScheduledMeeting.</returns>
+        Task<Call> JoinScheduledMeeting(string threadId, string organizerId);
+
         // /// <summary>
         // /// Creates call.
         // /// </summary>
@@ -31,11 +37,6 @@ namespace CallingBotSample.Interfaces
 
         // Task TransferCallAsync(string replaceCallId);
 
-        /// <summary>
-        /// Join Scheduled Meeting.
-        /// </summary>
-        /// <returns>JoinScheduledMeeting.</returns>
-        Task<Call> JoinScheduledMeeting(string threadId, string organizerId);
 
         // /// <summary>
         // /// Invite Participant to Meeting.
