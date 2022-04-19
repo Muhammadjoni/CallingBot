@@ -10,7 +10,7 @@ using CallingBotSample.Model;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace CallingMeetingBot.Controllers
+namespace CallingBotSample.Controllers
 {
   [ApiController]
   [Route("callback")]
