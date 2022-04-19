@@ -31,6 +31,8 @@ namespace CallingMeetingBot.Controllers
       await this.bot.ProcessNotificationAsync(this.Request, this.Response).ConfigureAwait(false);
     }
 
+
+/*
     [HttpGet("participants")]
     public IEnumerable<String> GetAllParticipants()
     {
@@ -69,11 +71,13 @@ namespace CallingMeetingBot.Controllers
           await Response.Body.WriteAsync(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(e)));
         }
     }
-
+*/
     [HttpGet("state")]
     public async Task GetCallState()
     {
 
     }
+
+
   }
 }

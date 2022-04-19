@@ -214,10 +214,12 @@ namespace CallingBotSample.Bots
                     await this.BotAnswerIncomingCallAsync(call.Id, args.TenantId, args.ScenarioId).ConfigureAwait(false);
                 }
 
-                var participants = (args.ResourceData as ICollection<object>).Select(x => x as Participant);
-                List<Participant> currentParticipants = new List<Participant>();
-                currentParticipants = participants.ToList();
-                Console.WriteLine(participants);
+                // var participants = (args.ResourceData as ICollection<object>).Select(x => x as Participant);
+                // List<Participant> currentParticipants = new List<Participant>();
+                // currentParticipants = participants.ToList();
+                // Console.WriteLine(participants);
+
+                // call.Id
             }
         }
 
