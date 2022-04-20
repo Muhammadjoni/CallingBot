@@ -21,16 +21,19 @@ namespace CallingBotSample.Controllers
       this.bot = bot;
     }
 
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
     [HttpPost]
     [Route("joincall")]
+
     public async Task<IActionResult> JoinCallAsync([FromBody] JoinCallRequestData joinCallBody)
     {
       Validator.NotNull(joinCallBody, nameof(joinCallBody));
 
       try
       {
-        var call = await this.grap.JoinCallAsync(joinCallBody).ConfigureAwait(false);
+        var call = await this.GraphLogger.JoinCallAsync(joinCallBody).ConfigureAwait(false);
 
         var callUriTemplate = new UriBuilder(this.bot.BotInstanceUri);
         callUriTemplate.Path = HttpRouteConstants.CallRoutePrefix.Replace("{callLegId}", call.Id);
